@@ -49,3 +49,22 @@ function saveData() {
 
 </body>
 </html>
+
+<input type="text" id="phone" placeholder="Phone Number"><br>
+<input type="text" id="route" placeholder="Route"><br>
+
+<script>
+function saveData() {
+    let name = document.getElementById("name").value;
+    let service = document.getElementById("service").value;
+    let feedback = document.getElementById("feedback").value;
+
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+    feedbacks.push({name, service, feedback});
+
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+    alert("Saved!");
+}
+</script>
