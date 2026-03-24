@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Feedback</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Bus Feedback Form</h2>
+
+    <input type="text" id="name" placeholder="Your Name"><br>
+    <input type="text" id="service" placeholder="Service Number"><br>
+    <textarea id="feedback" placeholder="Your Feedback"></textarea><br>
+
+    <button onclick="saveData()">Submit</button>
+    <p id="msg"></p>
+</div>
+
+<script>
+function saveData() {
+    let name = document.getElementById("name").value;
+    let service = document.getElementById("service").value;
+    let feedback = document.getElementById("feedback").value;
+
+    if(name === "" || service === "" || feedback === ""){
+        document.getElementById("msg").innerText = "Please fill all fields!";
+        return;
+    }
+
+    let data = {
+        name: name,
+        service: service,
+        feedback: feedback
+    };
+
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    feedbacks.push(data);
+
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+    document.getElementById("msg").innerText = "? Feedback Saved!";
+
+    document.getElementById("name").value = "";
+    document.getElementById("service").value = "";
+    document.getElementById("feedback").value = "";
+}
+</script>
+
+</body>
+</html>

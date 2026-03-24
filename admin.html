@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>All Feedbacks</h2>
+    <div id="list"></div>
+</div>
+
+<script>
+let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+let list = document.getElementById("list");
+
+if(feedbacks.length === 0){
+    list.innerHTML = "<p>No feedback available</p>";
+}
+
+feedbacks.forEach((item, index) => {
+    let div = document.createElement("div");
+    div.innerHTML = `
+        <p><b>Name:</b> ${item.name}</p>
+        <p><b>Service:</b> ${item.service}</p>
+        <p><b>Feedback:</b> ${item.feedback}</p>
+        <button onclick="deleteData(${index})">Delete</button>
+        <hr>
+    `;
+    list.appendChild(div);
+});
+
+function deleteData(index) {
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    feedbacks.splice(index, 1);
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+    location.reload();
+}
+</script>
+
+</body>
+</html>
