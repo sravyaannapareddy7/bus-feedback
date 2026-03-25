@@ -63,3 +63,122 @@ if(localStorage.getItem("login")!="yes"){
 
 <div id="employeeList"></div>
 </div>
+
+function addEmployee(){
+    let name = ename.value;
+    let user = euser.value;
+    let pass = epass.value;
+    let loc = elocation.value;
+
+    let data = JSON.parse(localStorage.getItem("employees")) || [];
+    data.push({name, user, pass, loc});
+
+    localStorage.setItem("employees", JSON.stringify(data));
+    showEmployees();
+}
+
+function showEmployees(){
+    let data = JSON.parse(localStorage.getItem("employees")) || [];
+    employeeList.innerHTML="";
+
+    data.forEach(e=>{
+        employeeList.innerHTML += `<p>${e.name} - ${e.loc}</p>`;
+    });
+}
+showEmployees();
+
+<div class="box">
+<h3>📊 Attendance</h3>
+<div id="attendanceList"></div>
+</div>
+
+function showAttendance(){
+    let data = JSON.parse(localStorage.getItem("attendance")) || [];
+    attendanceList.innerHTML="";
+
+    data.forEach(a=>{
+        attendanceList.innerHTML += `
+        <p>${a.user} - ${a.time}<br>
+        📍 ${a.lat}, ${a.lon}</p>`;
+    });
+}
+showAttendance();
+
+<video id="video" autoplay></video><br>
+<button onclick="captureFace()">Capture Face</button>
+<canvas id="canvas" style="display:none;"></canvas>
+
+// Start camera
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    document.getElementById("video").srcObject = stream;
+});
+
+// Capture face
+function captureFace(){
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    ctx.drawImage(video, 0, 0);
+
+    let image = canvas.toDataURL(); // base64 image
+
+    localStorage.setItem("face", image);
+    alert("Face saved!");
+}
+
+function addEmployee(){
+    let name = ename.value;
+    let user = euser.value;
+    let pass = epass.value;
+    let loc = elocation.value;
+    let face = localStorage.getItem("face");
+
+    let data = JSON.parse(localStorage.getItem("employees")) || [];
+    data.push({name, user, pass, loc, face});
+
+    localStorage.setItem("employees", JSON.stringify(data));
+    showEmployees();
+}
+
+function markAttendance(){
+
+    let canvas = document.getElementById("canvas");
+    let currentFace = canvas.toDataURL();
+
+    let employees = JSON.parse(localStorage.getItem("employees")) || [];
+    let user = localStorage.getItem("user");
+
+    let emp = employees.find(e => e.user == user);
+
+    if(!emp){
+        alert("User not found");
+        return;
+    }
+
+    // SIMPLE MATCH (compare strings)
+    if(emp.face === currentFace){
+
+        navigator.geolocation.getCurrentPosition(pos => {
+
+            let data = JSON.parse(localStorage.getItem("attendance")) || [];
+
+            data.push({
+                user: user,
+                lat: pos.coords.latitude,
+                lon: pos.coords.longitude,
+                time: new Date().toLocaleString()
+            });
+
+            localStorage.setItem("attendance", JSON.stringify(data));
+
+            document.getElementById("msg").innerText="✅ Attendance Marked!";
+        });
+
+    } else {
+        document.getElementById("msg").innerText="❌ Face not matched!";
+    }
+}
