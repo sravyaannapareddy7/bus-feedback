@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <!-- Mobile responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: green;
+        }
+
+        /* DASHBOARD */
+        .container {
+            padding: 10px;
+        }
+
+        /* BUS CARD */
+        .bus {
+            background: white;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px gray;
+        }
+
+        /* SCROLL AREA */
+        .scroll-box {
+            height: 250px;
+            overflow-y: scroll;
+        }
+
+        /* MAP */
+        iframe {
+            width: 100%;
+            height: 250px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    SEHANSH TRAVELS
+</div>
+
+<div class="container">
+
+    <h3>Available Buses</h3>
+
+    <!-- SCROLL BUS LIST -->
+    <div class="scroll-box" id="busList"></div>
+
+    <h3>Bus Locations</h3>
+
+    <!-- MAP -->
+    <iframe 
+        src="https://maps.google.com/maps?q=hyderabad&t=&z=10&ie=UTF8&iwloc=&output=embed">
+    </iframe>
+
+</div>
+
+<script>
+let buses = [
+    {no:"101", city:"Hyderabad"},
+    {no:"102", city:"Guntur"},
+    {no:"103", city:"Vijayawada"},
+    {no:"104", city:"Chennai"},
+    {no:"105", city:"Bangalore"},
+    {no:"106", city:"Hyderabad"},
+    {no:"107", city:"Guntur"},
+    {no:"108", city:"Vijayawada"},
+    {no:"109", city:"Chennai"},
+    {no:"110", city:"Bangalore"},
+    {no:"111", city:"Hyderabad"},
+    {no:"112", city:"Guntur"},
+    {no:"113", city:"Vijayawada"},
+    {no:"114", city:"Chennai"},
+    {no:"115", city:"Bangalore"},
+    {no:"116", city:"Hyderabad"},
+    {no:"117", city:"Guntur"},
+    {no:"118", city:"Vijayawada"},
+    {no:"119", city:"Chennai"},
+    {no:"120", city:"Bangalore"}
+];
+
+let list = document.getElementById("busList");
+
+buses.forEach(bus => {
+    let div = document.createElement("div");
+    div.className = "bus";
+    div.innerHTML = `
+        <b>Bus No:</b> ${bus.no} <br>
+        <b>City:</b> ${bus.city}
+    `;
+    list.appendChild(div);
+});
+</script>
+
+</body>
+</html>
